@@ -7,6 +7,7 @@ config-version: 2
 
 vars:
   city: "Paris"
+  dbt_dq_tool_schema: "AUDIT"
 
 # This setting configures which "profile" dbt uses for this project.
 profile: "default"
@@ -36,16 +37,16 @@ clean-targets: # directories to be removed by `dbt clean`
 # continue to be built as views. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 
-
 #on-run-start: "use warehouse compute_wh"
 #on-run-end: "alter warehouse compute_wh suspend"
-  
-
+on-run-end:
+  - '{{ dq_tools.store_test_results(results) }}'
 models:
-  +pre-hook: 
+  +pre-hook:
     - "insert into QWT_PROJECT.AUDIT.QWT_MODELS_AUDIT(modelname,starttime,endtime,duration) values('{{this}}',current_timestamp(),null,null);"
-  +post-hook: 
+  +post-hook:
     - "update QWT_PROJECT.AUDIT.QWT_MODELS_AUDIT set endtime = current_timestamp(),duration = datediff('second',starttime,current_timestamp()) where modelname = '{{this}}';"
+
 
 seeds:
   +schema: seed_data

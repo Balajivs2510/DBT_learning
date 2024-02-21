@@ -1,16 +1,7 @@
-{{
-    config(
-        materialized='incremental',alias = 'stg_orderdetails', unique_key='OrderID'
-
-    )
-}}
-
-select OD.* from qwt_project.raw.ORDERDEATILS OD
-Join {{ref('orders')}} os
-on OD.OrderID = os.OrderID
-
+{{config(materialized='incremental',unique_key = ['OrderID','lineno'])}}
+select od.*
+from QWT_PROJECT.raw.ORDERDEATILS od
+inner join {{ ref('orders') }} o on od.OrderID = o.OrderID
 {% if is_incremental() %}
-
- where os.OrderDate > (select max(os.OrderDate) from  {{ref('orders')}})
-
-{% endif %}  
+ where o.OrderDate >= (select MAX(OrderDate) from {{ref('orders')}}) 
+{% endif %}

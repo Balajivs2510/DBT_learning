@@ -5,15 +5,15 @@ models:
     columns:
       - name: CUSTOMERID
         tests:
-          - unique
-          - not_null
+          - dq_tools.unique_where_db
+          - dq_tools.not_null_where_db
 
   - name: shippements
     columns:
       - name: order_id
         tests:
-          - unique
-          - not_null
+          - dq_tools.unique_where_db
+          - dq_tools.not_null_where_db
       - name: status
         tests:
           - accepted_values:
