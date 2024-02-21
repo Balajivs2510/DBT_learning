@@ -1,4 +1,3 @@
-
 import snowflake.snowpark.functions as F
 
 
@@ -26,3 +25,12 @@ def model(dbt, session):
     )
 
     return final_df
+    final_removenulls_df = final_df.filter(F.col("first_order").isNotNull())
+
+    holiday_df = final_removenulls_df.to_pandas()
+
+    holiday_df["IS_ORDERDAY_HOLIDAY"] = (holiday_df["FIRST_ORDER"].astype(str)).apply(
+        is_holiday
+    )
+
+    return holiday_df

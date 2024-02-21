@@ -1,5 +1,3 @@
-
-
 def model(dbt, session):
     dbt.config(materialized = "incremental",alias = 'python_orders', unique_key='OrderID')
     df = dbt.ref("ref_orders_py")
@@ -10,3 +8,4 @@ def model(dbt, session):
         df = df.filter(df.orderdate >= session.sql(max_from_this).collect()[0][0])
 
     return df
+
