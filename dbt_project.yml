@@ -43,9 +43,9 @@ on-run-end:
   - '{{ dq_tools.store_test_results(results) }}'
 models:
   +pre-hook:
-    - "insert into QWT_PROJECT.AUDIT.QWT_MODELS_AUDIT(modelname,starttime,endtime,duration) values('{{this}}',current_timestamp(),null,null);"
+    - "insert into {{env_var('dbt_sourcedb','qwt_project')}}.{{env_var('dbt_AuditSchema','AUDIT')}}.QWT_MODELS_AUDIT(modelname,starttime,endtime,duration) values('{{this}}',current_timestamp(),null,null);"
   +post-hook:
-    - "update QWT_PROJECT.AUDIT.QWT_MODELS_AUDIT set endtime = current_timestamp(),duration = datediff('second',starttime,current_timestamp()) where modelname = '{{this}}';"
+    - "update {{env_var('dbt_sourcedb','qwt_project')}}.{{env_var('dbt_AuditSchema','AUDIT')}}.QWT_MODELS_AUDIT set endtime = current_timestamp(),duration = datediff('second',starttime,current_timestamp()) where modelname = '{{this}}';"
 
 
 seeds:

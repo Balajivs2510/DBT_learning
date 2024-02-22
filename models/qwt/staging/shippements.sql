@@ -3,4 +3,4 @@
 select OrderID	, LineNo ,	ShipperID ,	
 CustomerID ,	ProductID ,	EmployeeID ,	to_date(SUBSTR(ShipmentDate,1,regexp_instr(ShipmentDate,' ',1,1)-1))  as ShipmentDate ,	Status 
 
- from  qwt_project.raw.shippments
+ from  {{env_var('dbt_sourcedb','qwt_project')}}.{{env_var('dbt_sourceschema','raw')}}.shippments
