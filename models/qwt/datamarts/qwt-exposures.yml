@@ -1,0 +1,21 @@
+version: 2
+
+exposures:
+
+  - name: sales-kpi-qwt-metrics
+    
+    type: dashboard
+    maturity: high
+    url: https://www.google.com
+    description:  sales kpi tracker
+      
+
+    depends_on:
+      - ref('fct_orders')
+      - ref('dim_customers')
+      - ref('dim_product')
+ 
+
+    owner:
+      name: Cal
+      email: data@jaffleshop.com
