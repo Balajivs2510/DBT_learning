@@ -1,3 +1,3 @@
 {{config (materialized = 'table',alias = 'stg_products')}}
 
-select * from  qwt_project.raw.Products
+select * from   {{env_var('dbt_sourcedb','qwt_project')}}.{{env_var('dbt_sourceschema','raw')}}.Products

@@ -1,4 +1,4 @@
 
 {{config (materialized = 'table',alias = 'stg_customers')}}
 
-select * from  qwt_project.raw.Customer
+select * from  {{env_var('dbt_sourcedb','qwt_project')}}.{{env_var('dbt_sourceschema','raw')}}.Customer
