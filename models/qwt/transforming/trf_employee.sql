@@ -1,4 +1,4 @@
-{{config(materialized='table',schema='transforming')}}
+{{config(materialized='table',schema= env_var('dbt_trfschema','TRANSFORMING'))}}
 with employee as (
     select
     EMPID,
